@@ -1,17 +1,17 @@
 package telran.interview;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class ConnectionPool {
-    Map<String, Connection> pool;
+    LinkedHashMap<String, Connection> pool;
+
     public ConnectionPool(int size) {
         initPool(size);
     }
 
     private void initPool(int size) {
-        pool = new LinkedHashMap<>() {
+        pool = new LinkedHashMap<>(16, 0.75f, true) {
             @Override
             protected boolean removeEldestEntry(java.util.Map.Entry<String, Connection> eldest) {
                 return size() > size;
@@ -30,7 +30,7 @@ public class ConnectionPool {
         if (!pool.containsKey(connectionId)) {
             throw new NoSuchElementException();
         }
-       
+
         return pool.get(connectionId);
     }
 }
