@@ -16,10 +16,8 @@ public class InterviewTasks {
 
         int i = 0;
         boolean res = false;
-        while (!res && i < array.length) {
-            int pair = sum - array[i];
-            
-            if (map.contains(pair)) {
+        while (!res && i < array.length) {            
+            if (map.contains(sum - array[i])) {
                 res = true;
             }
 
