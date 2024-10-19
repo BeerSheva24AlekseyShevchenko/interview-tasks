@@ -10,9 +10,9 @@ public class AutoCompletion {
 
     public boolean addWord(String word) {
         return words.add(word);
-	}
+    }
 
-	public String[] getVariants(String prefix) {
+    public String[] getVariants(String prefix) {
         List<String> list = new ArrayList<>();
         Iterator<String> iterator = words.tailSet(prefix).iterator();
         String step = null;
@@ -22,9 +22,9 @@ public class AutoCompletion {
         }
 
         return list.toArray(String[]::new);
-	}
+    }
 
-    private boolean isStartsWith (String str, String prefix) {
+    private boolean isStartsWith(String str, String prefix) {
         return str.toLowerCase().startsWith(prefix.toLowerCase());
     }
 }
