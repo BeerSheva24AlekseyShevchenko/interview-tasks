@@ -5,13 +5,18 @@ import java.util.LinkedList;
 
 public class MyStackInt {
 	LinkedList<Integer> stack = new LinkedList<>();
+	LinkedList<Integer> stackMax = new LinkedList<>();
 
 	public void push(int num) {
 		stack.push(num);
+
+		Integer prevMax = stackMax.peek();
+		stackMax.push(prevMax == null || prevMax <= num ? num : prevMax);
 	}
 
 	public int pop() {
 		validateEmptyStack();
+		stackMax.pop();
 		return stack.pop();
 	}
 
@@ -27,7 +32,7 @@ public class MyStackInt {
 	public int getMaxElement() {
 		validateEmptyStack();
 
-		return -1;
+		return stackMax.peek();
 	}
 
 	private void validateEmptyStack() {
