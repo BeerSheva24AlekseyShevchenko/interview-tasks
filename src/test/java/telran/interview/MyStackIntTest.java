@@ -37,6 +37,7 @@ class MyStackIntTest {
         stack.push(100);
         stack.push(200);
         assertEquals(200, stack.pop());
+        assertEquals(100, stack.getMaxElement());
         assertEquals(100, stack.pop());
         assertEquals(10, stack.getMaxElement());
     }

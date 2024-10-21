@@ -20,17 +20,13 @@ public class MyArray<T> {
     public void set(int index, T value) {
         validateIndex(index);
 
-        if (value.equals(defaultValue)) {
-            arr.remove(index);
-        } else {
-            arr.put(index, value);
-        }
+        arr.put(index, value);
     }
 
     public T get(int index) {
         validateIndex(index);
 
-        return arr.containsKey(index) ? arr.get(index) : defaultValue;
+        return arr.getOrDefault(index, defaultValue);
     }
 
     private void validateIndex (int index) {

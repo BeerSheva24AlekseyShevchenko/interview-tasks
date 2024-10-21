@@ -1,11 +1,11 @@
 package telran.interview;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class InterviewTasks {
     /**
@@ -48,35 +48,16 @@ public class InterviewTasks {
 
     public static List<DateRole> assignRoleDates(List<DateRole> rolesHistory,
             List<LocalDate> dates) {
-        List<DateRole> roles = new ArrayList<>();
-        dates.forEach(i -> roles.add(getAvailableDateRole(rolesHistory, i)));
+        TreeMap<LocalDate, String> history = new TreeMap<>();
+        rolesHistory.forEach(i -> history.put(i.date(), i.role()));
+
+        List<DateRole> roles = dates.stream().map(date -> {
+            LocalDate floorKey = history.floorKey(date);
+            String role = floorKey != null ? history.get(floorKey) : null;
+            return new DateRole(date, role);
+        }).toList();
 
         return roles;
-    }
-
-    private static DateRole getAvailableDateRole(List<DateRole> rolesHistory, LocalDate date) {
-        int begin = 0;
-        int end = rolesHistory.size() - 1;
-        String role = null;
-
-        while (role == null && begin <= end) {
-            int mid = (begin + end) / 2;
-            DateRole midRole = rolesHistory.get(mid);
-            int compare = date.compareTo(midRole.date());
-
-            if (compare == 0) {
-                role = midRole.role();
-            } else if (compare < 0) {
-                end = mid - 1;
-            } else {
-                begin = mid + 1;
-            }
-        }
-        if (end >= 0) {
-            role = rolesHistory.get(end).role();
-        }
-
-        return new DateRole(date, role);
     }
 
     public static boolean isAnagram(String word, String anagram) {        
@@ -85,9 +66,18 @@ public class InterviewTasks {
 
     private static boolean compareLetters(String str1, String str2) {
         HashMap<Character, Integer> wordMap = getWordLetters(str1);
-        HashMap<Character, Integer> anagramMap = getWordLetters(str2);
+
+        boolean res = true;
+        int i = 0;
+        while (res && i < str2.length()) {
+            char letter = str2.charAt(i);
+            int count = wordMap.getOrDefault(letter, 0);
+            if (count == 0) res = false;
+            wordMap.put(letter, count - 1);
+            i++;
+        }
         
-        return wordMap.equals(anagramMap);
+        return res;
     }
 
     private static HashMap<Character, Integer> getWordLetters(String word) {

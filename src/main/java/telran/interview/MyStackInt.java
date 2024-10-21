@@ -11,12 +11,18 @@ public class MyStackInt {
 		stack.push(num);
 
 		Integer prevMax = stackMax.peek();
-		stackMax.push(prevMax == null || prevMax <= num ? num : prevMax);
+		if (prevMax == null || prevMax <= num) {
+			stackMax.push(num);
+		}
 	}
 
 	public int pop() {
 		validateEmptyStack();
-		stackMax.pop();
+
+		if (stack.peek().equals(stackMax.peek())) {
+			stackMax.pop();
+		}
+
 		return stack.pop();
 	}
 
